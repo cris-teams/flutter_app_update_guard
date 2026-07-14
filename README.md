@@ -136,6 +136,12 @@ flutter_app_update_guard simulate <packageName> [options]
 - `--keep-temp`: Keeps the sandbox temp folder on execution failure.
 - `--timeout`: Max timeout in seconds (defaults to `300`).
 
+### `doctor`
+Diagnoses the local development environment and configuration validity.
+```bash
+flutter_app_update_guard doctor
+```
+
 ---
 
 ## Configuration Reference (`flutter_app_update_guard.yaml`)

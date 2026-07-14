@@ -7,6 +7,7 @@ import '../commands/check_command.dart';
 import '../commands/ci_command.dart';
 import '../commands/inspect_command.dart';
 import '../commands/simulate_command.dart';
+import '../commands/doctor_command.dart';
 import '../config/baseline_manager.dart';
 import '../config/config_loader.dart';
 import '../config/guard_config.dart';
@@ -116,6 +117,11 @@ class AppRunner {
       ..addOption('timeout', defaultsTo: '300', help: 'Timeout in seconds for simulation commands.');
     addCommonFormatOptions(simulateParser);
     parser.addCommand('simulate', simulateParser);
+
+    // 7. doctor command
+    final doctorParser = ArgParser();
+    addCommonFormatOptions(doctorParser);
+    parser.addCommand('doctor', doctorParser);
 
     // Global flags
     parser
@@ -311,6 +317,14 @@ class AppRunner {
         }
 
         return simResult.success ? ExitCodes.success : ExitCodes.simulationFailed;
+      }
+
+      if (command.name == 'doctor') {
+        final executor = DoctorCommandExecutor(commandRunner: runner);
+        return await executor.execute(
+          workingDir: workingDir,
+          configPath: configPath,
+        );
       }
 
       return ExitCodes.success;
@@ -669,6 +683,7 @@ class AppRunner {
     print('  ci         Evaluate policies against update reports');
     print('  baseline   Create baseline snapshots to exclude tech debt');
     print('  simulate   Sandbox dependency upgrades to test compilation health');
+    print('  doctor     Run environment diagnostics');
     print('\nGlobal Options:');
     print(parser.usage);
   }
