@@ -1,0 +1,9 @@
+name: invalid_pubspec_project
+description: Invalid pubspec formatting
+version: 1.0.0
+publish_to: none
+dependencies:
+  dio:
+    - this
+    - is
+    - invalid

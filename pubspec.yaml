@@ -1,0 +1,24 @@
+name: flutter_app_update_guard
+description: A CLI tool to evaluate Dart & Flutter dependency update risks, compatibility, and health.
+version: 1.0.0
+repository: https://github.com/cris-teams/flutter_app_update_guard
+issue_tracker: https://github.com/cris-teams/flutter_app_update_guard/issues
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  args: ^2.4.2
+  yaml: ^3.1.2
+  pub_semver: ^2.1.4
+  http: ^1.2.0
+  path: ^1.9.0
+  meta: ^1.11.0
+  glob: ^2.1.2
+
+dev_dependencies:
+  test: ^1.24.0
+  lints: ^3.0.0
+
+executables:
+  flutter_app_update_guard:

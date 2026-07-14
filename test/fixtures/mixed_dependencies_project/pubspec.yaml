@@ -1,0 +1,19 @@
+name: mixed_dependencies_project
+description: Project with mixed hosted, git, path, and sdk dependencies.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  dio: ^5.0.0
+  flutter:
+    sdk: flutter
+  local_package:
+    path: ../local_package
+  custom_package:
+    git:
+      url: https://github.com/example/custom_package.git
+      ref: main
+

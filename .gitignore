@@ -1,0 +1,13 @@
+# Dependency directories
+.dart_tool/
+.packages
+pubspec.lock
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+*.iws
+
+# OS
+.DS_Store

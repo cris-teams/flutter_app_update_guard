@@ -1,0 +1,44 @@
+name: Dependency Guard
+
+on:
+  pull_request:
+    paths:
+      - pubspec.yaml
+      - pubspec.lock
+      - "**/pubspec.yaml"
+      - "**/pubspec.lock"
+      - flutter_app_update_guard.yaml
+
+jobs:
+  dependency_guard:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Run dependency guard CI Check
+        run: dart run flutter_app_update_guard ci --format console --baseline flutter_app_update_guard.baseline.json
+
+      - name: Generate Markdown report
+        if: always()
+        run: >
+          dart run flutter_app_update_guard report
+          --format markdown
+          --output dependency-report.md
+
+      - name: Publish GITHUB_STEP_SUMMARY
+        if: always()
+        run: cat dependency-report.md >> $GITHUB_STEP_SUMMARY
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: dependency-guard-report
+          path: dependency-report.md

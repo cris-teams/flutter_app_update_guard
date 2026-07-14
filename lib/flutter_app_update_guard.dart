@@ -1,0 +1,37 @@
+/// Support for evaluating update safety constraint, health, and policies.
+library flutter_app_update_guard;
+
+export 'src/analyzers/changelog_analyzer.dart';
+export 'src/analyzers/source_usage_analyzer.dart';
+export 'src/analyzers/version_classifier.dart';
+export 'src/analyzers/workspace_analyzer.dart';
+export 'src/cli/app_runner.dart';
+export 'src/cli/command_runner.dart';
+export 'src/cli/exit_codes.dart';
+export 'src/cli/process_command_runner.dart';
+export 'src/commands/check_command.dart';
+export 'src/commands/ci_command.dart';
+export 'src/commands/simulate_command.dart';
+export 'src/config/baseline_manager.dart';
+export 'src/config/config_loader.dart';
+export 'src/config/guard_config.dart';
+export 'src/exceptions/guard_exception.dart';
+export 'src/models/changelog_analysis.dart';
+export 'src/models/dependency_info.dart';
+export 'src/models/dependency_report.dart';
+export 'src/models/package_usage.dart';
+export 'src/models/policy_violation.dart';
+export 'src/models/project_report.dart';
+export 'src/models/pub_package_info.dart';
+export 'src/models/risk_models.dart';
+export 'src/models/simulation_result.dart';
+export 'src/models/workspace_models.dart';
+export 'src/pub/pub_api_client.dart';
+export 'src/pub/pub_cache.dart';
+export 'src/pub/pub_client.dart';
+export 'src/reporters/console_reporter.dart';
+export 'src/reporters/json_reporter.dart';
+export 'src/reporters/markdown_reporter.dart';
+export 'src/reporters/reporter.dart';
+export 'src/risk/risk_engine.dart';
+export 'src/risk/risk_rule.dart';
