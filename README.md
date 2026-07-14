@@ -227,6 +227,7 @@ The tool maps the calculated risk score (0-100) to one of five risk levels, repr
 - **Local Execution Security:** We do not execute commands via unescaped shell strings, reducing risk of shell injection attacks.
 - **Privacy Policy:** No source code or environment variable credentials are sent to remote servers; all scans are kept strictly local.
 - **Copy Restrictions:** Upgrade simulation does not copy `.git`, `build`, or `.dart_tool` folders, preventing leaks and massive disk space wastage.
+- **Direct vs. Transitive Dependencies:** To prevent log clutter and performance bloat, static checking (`check`/`inspect`) evaluates direct dependencies. Transitive (nested) dependencies are resolved and checked dynamically during sandbox simulation (`simulate`).
 - **Safe Yaml Rewrites:** Constraints updates are made on exact source spans of keys, preserving formatting and comments of the remaining file parts.
 
 ---
