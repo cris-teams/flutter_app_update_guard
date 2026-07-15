@@ -8,7 +8,6 @@ import '../cli/exit_codes.dart';
 import '../config/guard_config.dart';
 import '../exceptions/guard_exception.dart';
 import '../models/dependency_report.dart';
-import '../models/risk_models.dart';
 import '../project/project_detector.dart';
 import '../project/pubspec_modifier.dart';
 import '../project/pubspec_reader.dart';
@@ -87,7 +86,7 @@ class FixCommandExecutor {
   }) async {
     // Detect project files
     final paths = ProjectDetector.detect(workingDir);
-    
+
     // Evaluate current risk status of dependencies
     final checker = CheckCommandExecutor(pubClient: pubClient);
     final report = await checker.execute(
@@ -111,29 +110,35 @@ class FixCommandExecutor {
 
       // Rule 1: Prohibited risk level in risk.failOn
       if (config.risk.failOn.contains(risk.level)) {
-        skippedWithReason[r] = "Prohibited risk level '${risk.level.name}' (score: ${risk.score})";
+        skippedWithReason[r] =
+            'Prohibited risk level \'${risk.level.name}\' (score: ${risk.score})';
         continue;
       }
 
       // Rule 2: Policy allow_prerelease
-      if (!config.policies.allowPrerelease && r.updateType == UpdateType.prerelease) {
+      if (!config.policies.allowPrerelease &&
+          r.updateType == UpdateType.prerelease) {
         // If current locked version is not a pre-release
-        if (r.dependency.lockedVersion == null || !r.dependency.lockedVersion!.isPreRelease) {
-          skippedWithReason[r] = "Pre-release updates not allowed";
+        if (r.dependency.lockedVersion == null ||
+            !r.dependency.lockedVersion!.isPreRelease) {
+          skippedWithReason[r] = 'Pre-release updates not allowed';
           continue;
         }
       }
 
       // Rule 3: Policy allow_major_updates
-      if (!config.policies.allowMajorUpdates && r.updateType == UpdateType.major) {
-        skippedWithReason[r] = "Major updates not allowed";
+      if (!config.policies.allowMajorUpdates &&
+          r.updateType == UpdateType.major) {
+        skippedWithReason[r] = 'Major updates not allowed';
         continue;
       }
 
       // Rule 4: Policy fail_on_discontinued
       if (config.policies.failOnDiscontinued &&
-          risk.reasons.any((reason) => reason.code == 'DISCONTINUED' || reason.code == 'DISCONTINUED_PACKAGE')) {
-        skippedWithReason[r] = "Package is discontinued";
+          risk.reasons.any((reason) =>
+              reason.code == 'DISCONTINUED' ||
+              reason.code == 'DISCONTINUED_PACKAGE')) {
+        skippedWithReason[r] = 'Package is discontinued';
         continue;
       }
 
@@ -143,7 +148,7 @@ class FixCommandExecutor {
               reason.code == 'SDK_INCOMPATIBLE' ||
               reason.code == 'DART_SDK_INCOMPATIBLE' ||
               reason.code == 'FLUTTER_SDK_INCOMPATIBLE')) {
-        skippedWithReason[r] = "SDK incompatible";
+        skippedWithReason[r] = 'SDK incompatible';
         continue;
       }
 
@@ -151,7 +156,9 @@ class FixCommandExecutor {
     }
 
     final relativeDir = p.relative(workingDir);
-    final displayDir = relativeDir == '.' || relativeDir.isEmpty ? 'Root Project' : relativeDir;
+    final displayDir = relativeDir == '.' || relativeDir.isEmpty
+        ? 'Root Project'
+        : relativeDir;
 
     if (toUpdate.isEmpty) {
       print('\n[$displayDir] No safe dependency updates available.');
@@ -159,7 +166,8 @@ class FixCommandExecutor {
         print('Skipped updates due to security policies:');
         for (final entry in skippedWithReason.entries) {
           final r = entry.key;
-          print('  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion} (${entry.value})');
+          print(
+              '  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion} (${entry.value})');
         }
       }
       return false;
@@ -167,14 +175,16 @@ class FixCommandExecutor {
 
     print('\n[$displayDir] Found ${toUpdate.length} safe package updates:');
     for (final r in toUpdate) {
-      print('  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion}');
+      print(
+          '  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion}');
     }
 
     if (skippedWithReason.isNotEmpty) {
       print('Skipped unsafe/prohibited updates:');
       for (final entry in skippedWithReason.entries) {
         final r = entry.key;
-        print('  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion} (${entry.value})');
+        print(
+            '  - ${r.dependency.name}: ${r.dependency.lockedVersion} -> ${r.latestVersion} (${entry.value})');
       }
     }
 
@@ -189,9 +199,11 @@ class FixCommandExecutor {
       if (exact) {
         newConstraint = '${r.latestVersion}';
       } else {
-        final hasCaret = currentConstraint != null && currentConstraint.startsWith('^');
-        final isExact = currentConstraint != null && RegExp(r'^\d').hasMatch(currentConstraint);
-        
+        final hasCaret =
+            currentConstraint != null && currentConstraint.startsWith('^');
+        final isExact = currentConstraint != null &&
+            RegExp(r'^\d').hasMatch(currentConstraint);
+
         if (hasCaret) {
           newConstraint = '^${r.latestVersion}';
         } else if (isExact) {
@@ -200,15 +212,17 @@ class FixCommandExecutor {
           newConstraint = '^${r.latestVersion}';
         }
       }
-      
-      PubspecModifier.updateDependency(paths.pubspecPath, r.dependency.name, newConstraint);
+
+      PubspecModifier.updateDependency(
+          paths.pubspecPath, r.dependency.name, newConstraint);
     }
 
     print('Updated pubspec.yaml constraints.');
 
     // Run pub get
     final pubspecData = PubspecReader.read(paths.pubspecPath);
-    final hasFlutter = pubspecData.dependencies.any((d) => d.name == 'flutter' || d.name == 'flutter_test');
+    final hasFlutter = pubspecData.dependencies
+        .any((d) => d.name == 'flutter' || d.name == 'flutter_test');
     final executable = hasFlutter ? 'flutter' : 'dart';
 
     print('Running "$executable pub get" in $workingDir...');
@@ -221,11 +235,13 @@ class FixCommandExecutor {
     if (result.exitCode == 0) {
       print('Successfully ran "$executable pub get".');
     } else {
-      stderr.writeln('Error: "$executable pub get" failed with exit code ${result.exitCode}');
+      stderr.writeln(
+          'Error: "$executable pub get" failed with exit code ${result.exitCode}');
       if (result.stderr.isNotEmpty) {
         stderr.writeln(result.stderr);
       }
-      throw GuardException('pub get failed', exitCode: ExitCodes.simulationFailed);
+      throw const GuardException('pub get failed',
+          exitCode: ExitCodes.simulationFailed);
     }
 
     return true;
