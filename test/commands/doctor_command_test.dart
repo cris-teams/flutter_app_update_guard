@@ -11,30 +11,17 @@ void main() {
   group('DoctorCommandExecutor', () {
     late Directory tempDir;
     late FakeCommandRunner successRunner;
-    late FakeCommandRunner failureRunner;
 
     setUp(() {
       tempDir = Directory.systemTemp.createTempSync('doctor_test_');
 
       successRunner = FakeCommandRunner.withResult(
-        CommandResult(
+        const CommandResult(
           executable: 'flutter',
           arguments: ['--version'],
           exitCode: 0,
           stdout: 'Flutter 3.22.0 • channel stable',
           stderr: '',
-          duration: Duration.zero,
-          timedOut: false,
-        ),
-      );
-
-      failureRunner = FakeCommandRunner.withResult(
-        CommandResult(
-          executable: 'flutter',
-          arguments: ['--version'],
-          exitCode: 1,
-          stdout: '',
-          stderr: 'not found',
           duration: Duration.zero,
           timedOut: false,
         ),
