@@ -69,7 +69,7 @@ class PubspecModifier {
       // e.g. dio: ^5.7.0
       startOffset = pkgNode.span.start.offset;
       endOffset = pkgNode.span.end.offset;
-      replacement = '"$newVersion"'; // wrap in quotes for safety in YAML string parsing
+      replacement = newVersion;
     } else if (pkgNode is YamlMap) {
       // check if it's hosted map
       final isHosted = pkgNode.nodes.containsKey('hosted') || pkgNode.nodes.containsKey('version');
@@ -95,12 +95,12 @@ class PubspecModifier {
       if (versionNode is YamlScalar) {
         startOffset = versionNode.span.start.offset;
         endOffset = versionNode.span.end.offset;
-        replacement = '"$newVersion"';
+        replacement = newVersion;
       } else if (versionNode == null) {
         // version is missing, append it to the map
         startOffset = pkgNode.span.end.offset;
         endOffset = startOffset;
-        replacement = '\n  version: "$newVersion"';
+        replacement = '\n  version: $newVersion';
       } else {
         throw GuardException(
           "Invalid version field structure for package '$packageName'",

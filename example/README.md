@@ -35,6 +35,19 @@ Test compiling the `example/` project inside a temp sandbox after changing its c
 dart run flutter_app_update_guard simulate dio --working-dir example
 ```
 
+### D. Automatically Fix Safe Updates
+Scan the project, upgrade any safe dependencies (that do not violate update policies) in `pubspec.yaml`, and run `pub get`:
+```bash
+# Preview updates without writing to disk or running pub get (Dry Run)
+dart run flutter_app_update_guard fix --working-dir example --dry-run
+
+# Apply safe updates and execute pub get (preserves caret/exact style)
+dart run flutter_app_update_guard fix --working-dir example
+
+# Apply safe updates and force exact version constraints
+dart run flutter_app_update_guard fix --working-dir example --exact
+```
+
 ---
 
 ## 3. Programmatic Usage
