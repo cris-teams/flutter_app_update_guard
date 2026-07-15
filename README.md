@@ -101,6 +101,16 @@ In your GitHub Actions workflow or GitLab CI pipeline, execute the `ci` command.
 flutter_app_update_guard ci --baseline flutter_app_update_guard.baseline.json
 ```
 
+#### How to Resolve CI Policy Violations
+If your CI build fails with a policy violation (e.g. `POLICY_ALLOW_MAJOR_VIOLATION`), you can resolve it in one of three ways:
+1. **Create or Update the Baseline (Recommended for legacy packages)**: Acknowledge the violation as known technical debt by running:
+   ```bash
+   flutter_app_update_guard baseline create
+   ```
+   This will update `flutter_app_update_guard.baseline.json`. Commit the baseline file and push to pass the CI check.
+2. **Manually Upgrade the Package**: If the upgrade is desired, manually update the package constraint inside your `pubspec.yaml`, execute `pub get`, verify that your application compiles and passes tests locally, and then commit the changes.
+3. **Adjust Your Configuration Policies**: Relax your validation rules within `flutter_app_update_guard.yaml` (e.g., set `allow_major_updates: true` under `policies:`).
+
 ---
 
 ## Commands and Invocations
