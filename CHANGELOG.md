@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.0
+
+- **Fix Command (`fix`)**: Adds a new command to automatically update safe dependency constraints in `pubspec.yaml` and executes `pub get`. Supports `--dry-run` previews, `--exact` pinning, and monorepo `--workspace` modes.
+- **Doctor Command (`doctor`)**: Adds diagnostic verification of Dart/Flutter SDK environment, DNS resolution for pub.dev, and YAML configuration validation.
+- **Library API Programmatic Export**: Exports `FixCommandExecutor` from the public package entry point.
+- **CI Policy Violation Instructions**: Adds detailed guidelines in README for resolving policy violations blocking CI builds.
+- **Workflow Robustness**: Configures GITHUB_STEP_SUMMARY generation to use `continue-on-error` on CI.
+
 ## 1.0.0
 
 * Initial release of `flutter_app_update_guard`.

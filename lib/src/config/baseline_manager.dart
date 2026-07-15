@@ -70,14 +70,14 @@ class Baseline {
       timestamp: json['timestamp'] != null
           ? DateTime.parse(json['timestamp'] as String)
           : DateTime.now(),
-      toolVersion: (json['toolVersion'] as String?) ?? '1.0.0',
+      toolVersion: (json['toolVersion'] as String?) ?? '1.1.0',
     );
   }
 
   factory Baseline.empty() => Baseline(
         packages: const {},
         timestamp: DateTime.now(),
-        toolVersion: '1.0.0',
+        toolVersion: '1.1.0',
       );
 }
 
