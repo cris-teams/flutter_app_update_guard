@@ -77,14 +77,24 @@ flutter_app_update_guard simulate provider
 flutter_app_update_guard simulate dio --version 6.0.0 --run-tests
 ```
 
-### Step 4: Create a Tech-Debt Baseline
+### Step 4: Automatically Apply Safe Fixes
+You can automatically update `pubspec.yaml` with safe dependency upgrades (those that comply with all risk limits and CI policies) and run `pub get`:
+```bash
+# Preview what would be updated (Dry Run)
+flutter_app_update_guard fix --dry-run
+
+# Apply safe updates and run pub get
+flutter_app_update_guard fix
+```
+
+### Step 5: Create a Tech-Debt Baseline
 If you are integrating the tool into a mature project with many existing warnings, create a baseline snapshot to record the current state. This allows you to ignore existing technical debt and prevent new violations from entering the codebase:
 ```bash
 flutter_app_update_guard baseline create
 ```
 This command generates a `flutter_app_update_guard.baseline.json` file in the root of your project.
 
-### Step 5: Enforce Policies in CI
+### Step 6: Enforce Policies in CI
 In your GitHub Actions workflow or GitLab CI pipeline, execute the `ci` command. If any new dependency violates your policies, the pipeline will fail:
 ```bash
 # Check policies and fail if violations exist (excluding baseline packages)
@@ -141,6 +151,15 @@ Diagnoses the local development environment and configuration validity.
 ```bash
 flutter_app_update_guard doctor
 ```
+
+### `fix`
+Automatically updates safe dependencies in `pubspec.yaml` and executes `pub get`.
+```bash
+flutter_app_update_guard fix [options]
+```
+- `--dry-run`: Preview updates without writing them to disk.
+- `--workspace`: Apply safe updates recursively across all sub-projects in a monorepo workspace.
+- `--exact`: Pin version constraints to exact versions instead of using carets (^). Default behavior when not passed: automatically preserves the format of the original constraint (carets or exact version).
 
 ---
 

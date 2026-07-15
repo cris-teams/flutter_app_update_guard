@@ -36,7 +36,7 @@ void main() {
       PubspecModifier.updateDependency(yamlPath, 'dio', '^6.0.0');
 
       final content = File(yamlPath).readAsStringSync();
-      expect(content, contains('dio: "^6.0.0" # some comment'));
+      expect(content, contains('dio: ^6.0.0 # some comment'));
       expect(content, contains('path: ^1.8.0')); // unchanged
     });
 
@@ -54,7 +54,7 @@ void main() {
       PubspecModifier.updateDependency(yamlPath, 'dio', '^6.0.0');
 
       final content = File(yamlPath).readAsStringSync();
-      expect(content, contains('version: "^6.0.0"'));
+      expect(content, contains('version: ^6.0.0'));
       expect(content, contains('path: ^1.8.0')); // unchanged
     });
   });

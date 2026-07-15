@@ -8,6 +8,7 @@ import '../commands/ci_command.dart';
 import '../commands/inspect_command.dart';
 import '../commands/simulate_command.dart';
 import '../commands/doctor_command.dart';
+import '../commands/fix_command.dart';
 import '../config/baseline_manager.dart';
 import '../config/config_loader.dart';
 import '../config/guard_config.dart';
@@ -122,6 +123,14 @@ class AppRunner {
     final doctorParser = ArgParser();
     addCommonFormatOptions(doctorParser);
     parser.addCommand('doctor', doctorParser);
+
+    // 8. fix command
+    final fixParser = ArgParser()
+      ..addFlag('dry-run', defaultsTo: false, help: 'Preview updates without applying them.')
+      ..addFlag('workspace', defaultsTo: false, help: 'Scan workspace/monorepo projects.')
+      ..addFlag('exact', defaultsTo: false, help: 'Pin version constraints to exact versions instead of using carets (^).');
+    addCommonFormatOptions(fixParser);
+    parser.addCommand('fix', fixParser);
 
     // Global flags
     parser
@@ -324,6 +333,21 @@ class AppRunner {
         return await executor.execute(
           workingDir: workingDir,
           configPath: configPath,
+        );
+      }
+
+      if (command.name == 'fix') {
+        final dryRun = command['dry-run'] as bool;
+        final workspaceMode = command.options.contains('workspace') && command['workspace'] == true;
+        final exact = command.options.contains('exact') && command['exact'] == true;
+        final executor = FixCommandExecutor(pubClient: client, commandRunner: runner);
+        return await executor.execute(
+          workingDir: workingDir,
+          config: config,
+          workspaceMode: workspaceMode,
+          dryRun: dryRun,
+          exact: exact,
+          verbose: verbose,
         );
       }
 
@@ -684,6 +708,7 @@ class AppRunner {
     print('  baseline   Create baseline snapshots to exclude tech debt');
     print('  simulate   Sandbox dependency upgrades to test compilation health');
     print('  doctor     Run environment diagnostics');
+    print('  fix        Automatically update safe dependencies and run pub get');
     print('\nGlobal Options:');
     print(parser.usage);
   }
