@@ -28,8 +28,8 @@ class DoctorCommandExecutor {
     final pubspecFile = File(Platform.isWindows ? '$workingDir\\pubspec.yaml' : '$workingDir/pubspec.yaml');
     final lockFile = File(Platform.isWindows ? '$workingDir\\pubspec.lock' : '$workingDir/pubspec.lock');
 
-    final hasPubspec = pubspecFile.existsSync();
-    final hasLock = lockFile.existsSync();
+    bool hasPubspec = pubspecFile.existsSync();
+    bool hasLock = lockFile.existsSync();
 
     if (hasPubspec) {
       print('[✓] Project Workspace:');
