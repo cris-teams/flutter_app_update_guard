@@ -92,7 +92,7 @@ void main() {
           ),
         },
         timestamp: DateTime.now(),
-        toolVersion: '1.0.0',
+        toolVersion: '1.1.0',
       );
 
       // Should bypass the major violation as it is baselined
@@ -112,7 +112,7 @@ void main() {
           ),
         },
         timestamp: DateTime.now(),
-        toolVersion: '1.0.0',
+        toolVersion: '1.1.0',
       );
 
       // Should NOT bypass because level escalated from low -> medium

@@ -285,7 +285,7 @@ class AppRunner {
         );
 
         const targetBaselinePath = 'flutter_app_update_guard.baseline.json';
-        BaselineManager.save(targetBaselinePath, report, '1.0.0');
+        BaselineManager.save(targetBaselinePath, report, '1.1.0');
 
         if (!quiet) {
           print('Created baseline file at: $targetBaselinePath');

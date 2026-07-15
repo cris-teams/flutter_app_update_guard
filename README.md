@@ -21,7 +21,7 @@
 To use the tool locally in your Dart or Flutter project, add it to your `dev_dependencies`:
 ```yaml
 dev_dependencies:
-  flutter_app_update_guard: ^1.0.0
+  flutter_app_update_guard: ^1.1.0
 ```
 Or run:
 ```bash

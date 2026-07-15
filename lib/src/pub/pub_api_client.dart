@@ -31,7 +31,7 @@ class PubApiClient implements PubClient {
         final response = await _client.get(
           uri,
           headers: {
-            'User-Agent': 'flutter_app_update_guard/1.0.0 (+https://github.com/example/flutter_app_update_guard)',
+            'User-Agent': 'flutter_app_update_guard/1.1.0 (+https://github.com/example/flutter_app_update_guard)',
             'Accept': 'application/json',
           },
         ).timeout(timeout);
