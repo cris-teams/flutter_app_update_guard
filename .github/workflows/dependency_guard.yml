@@ -28,6 +28,7 @@ jobs:
 
       - name: Generate Markdown report
         if: always()
+        continue-on-error: true
         run: >
           dart run flutter_app_update_guard report
           --format markdown
