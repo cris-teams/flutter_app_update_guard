@@ -1,0 +1,135 @@
+{
+  "name": "flutter-app-update-guard",
+  "displayName": "Flutter App Update Guard",
+  "description": "Inspect Flutter and Dart dependency update risk directly from pubspec.yaml.",
+  "version": "0.2.0",
+  "publisher": "cris-teams",
+  "icon": "media/logo.png",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cris-teams/flutter_app_update_guard"
+  },
+  "engines": {
+    "vscode": "^1.88.0"
+  },
+  "categories": [
+    "Linters",
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:yaml",
+    "onCommand:flutter_app_update_guard.check",
+    "onCommand:flutter_app_update_guard.fix",
+    "onCommand:flutter_app_update_guard.baseline",
+    "onView:flutterAppUpdateGuard.dependencies"
+  ],
+  "main": "./out/extension.js",
+  "scripts": {
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "vscode:prepublish": "npm run compile"
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "flutter_app_update_guard.check",
+        "title": "Flutter Update Guard: Check Dependencies",
+        "category": "Flutter Update Guard"
+      },
+      {
+        "command": "flutter_app_update_guard.fix",
+        "title": "Flutter Update Guard: Fix Safe Updates",
+        "category": "Flutter Update Guard"
+      },
+      {
+        "command": "flutter_app_update_guard.baseline",
+        "title": "Flutter Update Guard: Create Baseline",
+        "category": "Flutter Update Guard"
+      },
+      {
+        "command": "flutter_app_update_guard.simulate",
+        "title": "Flutter Update Guard: Simulate Upgrade",
+        "category": "Flutter Update Guard"
+      },
+      {
+        "command": "flutter_app_update_guard.inspect",
+        "title": "Flutter Update Guard: Inspect Package",
+        "category": "Flutter Update Guard"
+      },
+      {
+        "command": "flutter_app_update_guard.refresh",
+        "title": "Flutter Update Guard: Refresh Dependency Tree",
+        "category": "Flutter Update Guard"
+      }
+    ],
+    "configuration": {
+      "title": "Flutter App Update Guard",
+      "properties": {
+        "flutter_app_update_guard.cliPath": {
+          "type": "string",
+          "default": "",
+          "description": "Optional path to the flutter_app_update_guard executable. When empty, the extension tries the global executable and then `dart run flutter_app_update_guard` in the workspace."
+        },
+        "flutter_app_update_guard.checkOnOpen": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run dependency checks when a pubspec.yaml file is opened."
+        },
+        "flutter_app_update_guard.checkOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run dependency checks when pubspec.yaml is saved."
+        },
+        "flutter_app_update_guard.diagnosticMinimumRisk": {
+          "type": "string",
+          "enum": [
+            "medium",
+            "high",
+            "critical"
+          ],
+          "default": "high",
+          "description": "Minimum risk level shown as diagnostics in pubspec.yaml."
+        }
+      }
+    },
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "flutterAppUpdateGuard",
+          "title": "Flutter Update Guard",
+          "icon": "media/shield.svg"
+        }
+      ]
+    },
+    "views": {
+      "flutterAppUpdateGuard": [
+        {
+          "id": "flutterAppUpdateGuard.dependencies",
+          "name": "Dependencies"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "flutter_app_update_guard.refresh",
+          "when": "view == flutterAppUpdateGuard.dependencies",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "flutter_app_update_guard.check",
+          "when": "resourceFilename == pubspec.yaml",
+          "group": "navigation"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.30",
+    "@types/vscode": "^1.88.0",
+    "typescript": "^5.4.5"
+  }
+}

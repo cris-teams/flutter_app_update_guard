@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.2.0
+
+- **VS Code Extension MVP**: Adds a TypeScript VS Code extension under `extensions/vscode` with diagnostics for risky or policy-violating dependencies in `pubspec.yaml`.
+- **Editor Actions**: Adds CodeLens actions for `Simulate Upgrade` and `Inspect Package`, plus commands for check, fix, baseline creation, package inspection, and upgrade simulation.
+- **Dependency Sidebar**: Adds a Flutter Update Guard sidebar tree view showing dependency risk levels, scores, versions, and risk reasons.
+- **Extension CLI Integration**: Runs the existing CLI through a configured executable, project-local `dart run flutter_app_update_guard`, or global `flutter_app_update_guard`.
+- **Extension Documentation**: Documents the two-part editor workflow: running/installing the VS Code extension and adding the CLI as a project `dev_dependency`.
+
 ## 1.1.0
 
 - **Fix Command (`fix`)**: Adds a new command to automatically update safe dependency constraints in `pubspec.yaml` and executes `pub get`. Supports `--dry-run` previews, `--exact` pinning, and monorepo `--workspace` modes.
