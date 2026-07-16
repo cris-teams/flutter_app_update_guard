@@ -21,7 +21,7 @@
 To use the tool locally in your Dart or Flutter project, add it to your `dev_dependencies`:
 ```yaml
 dev_dependencies:
-  flutter_app_update_guard: ^1.1.0
+  flutter_app_update_guard: ^1.2.0
 ```
 Or run:
 ```bash
@@ -110,6 +110,86 @@ If your CI build fails with a policy violation (e.g. `POLICY_ALLOW_MAJOR_VIOLATI
    This will update `flutter_app_update_guard.baseline.json`. Commit the baseline file and push to pass the CI check.
 2. **Manually Upgrade the Package**: If the upgrade is desired, manually update the package constraint inside your `pubspec.yaml`, execute `pub get`, verify that your application compiles and passes tests locally, and then commit the changes.
 3. **Adjust Your Configuration Policies**: Relax your validation rules within `flutter_app_update_guard.yaml` (e.g., set `allow_major_updates: true` under `policies:`).
+
+---
+
+## How to Use the VS Code Extension
+
+The VS Code extension lives in `extensions/vscode/` and runs the existing `flutter_app_update_guard` CLI in the background. It is currently intended for local development and manual testing through VS Code's Extension Development Host.
+
+There are two parts to the editor workflow:
+
+1. **Install or run the VS Code extension** so VS Code can show diagnostics, CodeLens actions, and the sidebar UI.
+2. **Add `flutter_app_update_guard` to your Dart/Flutter project** so the extension can execute the CLI from that project.
+
+### Option 1: Run the Extension
+
+```bash
+cd extensions/vscode
+npm install
+npm run compile
+open -a "Visual Studio Code" .
+```
+
+Press `F5` in VS Code and choose **Run Extension**. This opens a new Extension Development Host window.
+
+If you have installed the `code` shell command in VS Code, you can use `code .` instead of `open -a "Visual Studio Code" .`.
+
+### Option 2: Add the CLI to Your Project
+
+In the Dart or Flutter project you want to inspect, add `flutter_app_update_guard` as a development dependency:
+
+```bash
+dart pub add dev:flutter_app_update_guard
+```
+
+Or add it manually:
+
+```yaml
+dev_dependencies:
+  flutter_app_update_guard: ^1.2.0
+```
+
+Then run:
+
+```bash
+dart pub get
+```
+
+The extension first checks the configured `flutter_app_update_guard.cliPath`, then tries the project-local CLI via:
+
+```bash
+dart run flutter_app_update_guard
+```
+
+You can also activate the CLI globally if you prefer:
+
+```bash
+dart pub global activate flutter_app_update_guard
+```
+
+In the Extension Development Host:
+
+1. Open a Dart or Flutter project that contains `pubspec.yaml`.
+2. Open `pubspec.yaml`.
+3. Run **Flutter Update Guard: Check Dependencies** from the Command Palette.
+4. Check diagnostics in the editor, CodeLens actions above dependency lines, and the **Flutter Update Guard** sidebar.
+
+### Extension Features
+
+- **Diagnostics:** marks risky or policy-violating dependencies directly in `pubspec.yaml`.
+- **CodeLens:** adds `Simulate Upgrade` and `Inspect Package` actions on dependency lines.
+- **Sidebar Tree View:** lists dependencies by risk score with risk reasons.
+- **Commands:** supports check, fix, baseline creation, package inspection, and upgrade simulation.
+
+### Extension Settings
+
+You can configure the extension from VS Code settings:
+
+- `flutter_app_update_guard.cliPath`: optional path to a specific CLI executable.
+- `flutter_app_update_guard.checkOnOpen`: run checks when `pubspec.yaml` opens.
+- `flutter_app_update_guard.checkOnSave`: run checks when `pubspec.yaml` is saved.
+- `flutter_app_update_guard.diagnosticMinimumRisk`: minimum risk shown as editor diagnostics (`medium`, `high`, or `critical`).
 
 ---
 

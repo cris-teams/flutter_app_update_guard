@@ -6,6 +6,9 @@ pubspec.lock
 # IDEs
 .idea/
 .vscode/
+!extensions/vscode/.vscode/
+!extensions/vscode/.vscode/launch.json
+!extensions/vscode/.vscode/tasks.json
 *.iml
 *.iws
 
