@@ -2,7 +2,7 @@
   "name": "flutter-app-update-guard",
   "displayName": "Flutter App Update Guard",
   "description": "Inspect Flutter and Dart dependency update risk directly from pubspec.yaml.",
-  "version": "0.2.0",
+  "version": "0.1.1",
   "publisher": "cris-teams",
   "icon": "media/logo.png",
   "license": "MIT",
