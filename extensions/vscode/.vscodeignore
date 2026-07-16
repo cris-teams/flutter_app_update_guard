@@ -4,3 +4,6 @@ src/**
 node_modules/**
 out/**/*.map
 tsconfig.json
+.gitignore
+BUILD_VSIX.md
+*.vsix

@@ -15,6 +15,8 @@ dart pub get
 
 Then open VS Code at the Dart or Flutter project root that contains `pubspec.yaml` and run **Flutter Update Guard: Check Dependencies** from the Command Palette.
 
+After installing the extension from VSIX or the Marketplace, reload VS Code and make sure the opened folder is the project root where `pubspec.yaml` lives.
+
 You can also use a global CLI installation:
 
 ```sh
