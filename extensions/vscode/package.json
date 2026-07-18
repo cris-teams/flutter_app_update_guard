@@ -2,7 +2,7 @@
   "name": "flutter-app-update-guard",
   "displayName": "Flutter App Update Guard",
   "description": "Inspect Flutter and Dart dependency update risk directly from pubspec.yaml.",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "cris-teams",
   "icon": "media/logo.png",
   "license": "MIT",
@@ -19,6 +19,7 @@
   ],
   "activationEvents": [
     "onLanguage:yaml",
+    "onCommand:flutter_app_update_guard.selectProject",
     "onCommand:flutter_app_update_guard.check",
     "onCommand:flutter_app_update_guard.fix",
     "onCommand:flutter_app_update_guard.baseline",
@@ -33,6 +34,12 @@
   "contributes": {
     "commands": [
       {
+        "command": "flutter_app_update_guard.selectProject",
+        "title": "Flutter Update Guard: Select pubspec.yaml",
+        "category": "Flutter Update Guard",
+        "icon": "$(list-unordered)"
+      },
+      {
         "command": "flutter_app_update_guard.check",
         "title": "Flutter Update Guard: Check Dependencies",
         "category": "Flutter Update Guard"
@@ -40,12 +47,14 @@
       {
         "command": "flutter_app_update_guard.fix",
         "title": "Flutter Update Guard: Fix Safe Updates",
-        "category": "Flutter Update Guard"
+        "category": "Flutter Update Guard",
+        "icon": "$(tools)"
       },
       {
         "command": "flutter_app_update_guard.baseline",
         "title": "Flutter Update Guard: Create Baseline",
-        "category": "Flutter Update Guard"
+        "category": "Flutter Update Guard",
+        "icon": "$(shield)"
       },
       {
         "command": "flutter_app_update_guard.simulate",
@@ -60,7 +69,8 @@
       {
         "command": "flutter_app_update_guard.refresh",
         "title": "Flutter Update Guard: Refresh Dependency Tree",
-        "category": "Flutter Update Guard"
+        "category": "Flutter Update Guard",
+        "icon": "$(refresh)"
       }
     ],
     "configuration": {
@@ -113,9 +123,24 @@
     "menus": {
       "view/title": [
         {
+          "command": "flutter_app_update_guard.selectProject",
+          "when": "view == flutterAppUpdateGuard.dependencies",
+          "group": "navigation@1"
+        },
+        {
           "command": "flutter_app_update_guard.refresh",
           "when": "view == flutterAppUpdateGuard.dependencies",
-          "group": "navigation"
+          "group": "navigation@2"
+        },
+        {
+          "command": "flutter_app_update_guard.fix",
+          "when": "view == flutterAppUpdateGuard.dependencies",
+          "group": "navigation@3"
+        },
+        {
+          "command": "flutter_app_update_guard.baseline",
+          "when": "view == flutterAppUpdateGuard.dependencies",
+          "group": "navigation@4"
         }
       ],
       "editor/context": [
