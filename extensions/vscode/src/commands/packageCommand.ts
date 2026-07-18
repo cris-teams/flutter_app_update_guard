@@ -13,7 +13,7 @@ export async function runPackageCommand(
   packageName?: string,
   uri?: vscode.Uri
 ): Promise<void> {
-  const context = await resolveProjectContext(uri);
+  const context = await resolveProjectContext(uri, true);
   if (!context) {
     void vscode.window.showWarningMessage('Open a Dart/Flutter workspace first.');
     return;
@@ -26,8 +26,8 @@ export async function runPackageCommand(
 
   try {
     const result = command === 'inspect'
-      ? await cli.inspect(context.workspaceFolder.uri.fsPath, selectedPackage)
-      : await cli.simulate(context.workspaceFolder.uri.fsPath, selectedPackage);
+      ? await cli.inspect(context.projectPath, selectedPackage)
+      : await cli.simulate(context.projectPath, selectedPackage);
     output.show(true);
     output.appendLine(result);
   } catch (error) {

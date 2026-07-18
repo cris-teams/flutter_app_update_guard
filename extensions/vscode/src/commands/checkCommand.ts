@@ -29,7 +29,7 @@ export async function runCheckCommand(context: CheckCommandContext): Promise<voi
     },
     async () => {
       try {
-        const report = await context.cli.check(projectContext.workspaceFolder.uri.fsPath);
+        const report = await context.cli.check(projectContext.projectPath);
         const document = await vscode.workspace.openTextDocument(projectContext.pubspecUri);
         updateDiagnostics(document, report, context.diagnostics);
         context.treeProvider.setReport(report, projectContext.workspaceFolder);

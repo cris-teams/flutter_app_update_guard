@@ -7,14 +7,14 @@ export async function runBaselineCommand(
   cli: UpdateGuardCli,
   output: vscode.OutputChannel
 ): Promise<void> {
-  const context = await resolveProjectContext();
+  const context = await resolveProjectContext(undefined, true);
   if (!context) {
     void vscode.window.showWarningMessage('Open a Dart/Flutter workspace first.');
     return;
   }
 
   try {
-    const result = await cli.baseline(context.workspaceFolder.uri.fsPath);
+    const result = await cli.baseline(context.projectPath);
     output.show(true);
     output.appendLine(result);
   } catch (error) {

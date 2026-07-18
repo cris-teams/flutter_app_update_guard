@@ -10,7 +10,7 @@ export async function runFixCommand(
   cli: UpdateGuardCli,
   output: vscode.OutputChannel
 ): Promise<void> {
-  const context = await resolveProjectContext();
+  const context = await resolveProjectContext(undefined, true);
   if (!context) {
     void vscode.window.showWarningMessage('Open a Dart/Flutter workspace first.');
     return;
@@ -24,7 +24,7 @@ export async function runFixCommand(
   }
 
   try {
-    const result = await cli.fix(context.workspaceFolder.uri.fsPath, choice === dryRunChoice);
+    const result = await cli.fix(context.projectPath, choice === dryRunChoice);
     output.show(true);
     output.appendLine(result);
   } catch (error) {
